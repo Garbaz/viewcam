@@ -6,6 +6,6 @@ echo "$c) $d"
 c=$(($c + 1))
 done
 printf ">"
-read $s
+read s
 selection=$( printf "${devices[$s]}" | sed 's/\/dev\/video//g')
 $(dirname $0)/viewcam $selection

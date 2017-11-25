@@ -1,7 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <cv.h>
-#include <highgui.h>
+#include <opencv2/core/fast_math.hpp> //Probably a bad idea, but necesarry.
+#include <opencv/cv.h>
+#include <opencv/highgui.h>
+#include <opencv2/videoio/videoio_c.h>
 #include <signal.h>
 #include <unistd.h>
 
@@ -14,9 +16,6 @@
 #define SGREEN(s) s.val[1]
 #define SRED(s)   s.val[2]
 
-#define DBLUE(x,y)  (imgdata + y * imgstep)[x * imgchannels + 0]
-#define DGREEN(x,y) (imgdata + y * imgstep)[x * imgchannels + 1]
-#define DRED(x,y)   (imgdata + y * imgstep)[x * imgchannels + 2]
 
 #define resetPrint() currTextY = 20
 
@@ -72,7 +71,7 @@ int main(int argc, char *argv[])
 	lineWidth = 1;
 	cvInitFont(&font,CV_FONT_HERSHEY_SIMPLEX|CV_FONT_ITALIC, hScale,vScale,0,lineWidth, 8);
 	
-	video = cvCaptureFromCAM(0);
+	video = cvCaptureFromCAM(strtol(argv[1],NULL,10));
 	img = 0;
 	
 	strcat(winTitle, argv[1]);
@@ -136,6 +135,10 @@ int main(int argc, char *argv[])
 			getExtremePoint(&darkestX, &darkestY, &exDarkest);
 		}
 		
+#define DBLUE(x,y)  (imgdata + y * imgstep)[x * imgchannels + 0]
+#define DGREEN(x,y) (imgdata + y * imgstep)[x * imgchannels + 1]
+#define DRED(x,y)   (imgdata + y * imgstep)[x * imgchannels + 2]
+
 		if(selectedPixelX | selectedPixelY != 0)
 		{
 			resetPrint();
